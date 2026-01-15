@@ -2,8 +2,9 @@
 
 # DevFlow CLI
 
-**A powerful command-line tool for initializing DevFlow projects with Claude AI agents**
+**The official npm package wrapper for [DevFlow](https://github.com/evolve-labs-cloud/devflow) - A Multi-Agent System for Claude Code**
 
+[![DevFlow](https://img.shields.io/badge/DevFlow-Multi--Agent%20System-blueviolet?logo=github)](https://github.com/evolve-labs-cloud/devflow)
 [![CI](https://github.com/fjcunha/devflow-cli/actions/workflows/check.yaml/badge.svg)](https://github.com/fjcunha/devflow-cli/actions/workflows/check.yaml)
 [![Coverage](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/fjcunha/devflow-cli/main/.github/badges/coverage.json)](https://github.com/fjcunha/devflow-cli/actions/workflows/coverage.yaml)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
@@ -11,15 +12,26 @@
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-[Features](#features) | [Installation](#installation) | [Usage](#usage) | [Development](#development) | [Contributing](#contributing)
+[What is DevFlow?](#what-is-devflow) | [Features](#features) | [Installation](#installation) | [Usage](#usage) | [Development](#development)
 
 </div>
 
 ---
 
+## What is DevFlow?
+
+**[DevFlow](https://github.com/evolve-labs-cloud/devflow)** is a powerful multi-agent system designed to supercharge your development workflow with Claude AI. It provides:
+
+- **Specialized AI Agents** - Pre-configured agents for different development tasks
+- **Persistent Memory** - Agents that remember context across sessions
+- **Session Management** - Organized workflows with session tracking
+- **Seamless Integration** - Works directly with Claude Code CLI
+
+This CLI package is the **official npm wrapper** that makes it easy to install and configure DevFlow in any project with a single command.
+
 ## Overview
 
-DevFlow CLI simplifies the setup of DevFlow-powered projects by installing Claude AI agents, project structure templates, and configuration files into your existing projects. It handles dependency validation, provides OS-specific installation guidance, and ensures a smooth onboarding experience.
+DevFlow CLI simplifies the setup of DevFlow-powered projects by installing the multi-agent system, project structure templates, and configuration files into your existing projects. It handles dependency validation, provides OS-specific installation guidance, and ensures a smooth onboarding experience.
 
 ## Features
 
