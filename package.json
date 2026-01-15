@@ -10,7 +10,7 @@
 		"dist"
 	],
 	"scripts": {
-		"build": "tsup src/cli.ts src/postinstall.ts --format esm",
+		"build": "tsup src/cli.ts --format esm",
 		"dev": "tsx src/cli.ts",
 		"prepublishOnly": "npm run build",
 		"postinstall": "node dist/postinstall.js",
