@@ -412,11 +412,13 @@ describe("checkDependencies", () => {
 });
 
 describe("showInstallInstructions", () => {
-	const mockStdoutWrite = vi.spyOn(process.stdout, "write");
+	let mockStdoutWrite: any;
 
 	beforeEach(() => {
 		vi.clearAllMocks();
-		mockStdoutWrite.mockImplementation(() => true);
+		mockStdoutWrite = vi
+			.spyOn(process.stdout, "write")
+			.mockImplementation(() => true);
 	});
 
 	afterEach(() => {
@@ -628,12 +630,14 @@ describe("showInstallInstructions", () => {
 });
 
 describe("promptContinue", () => {
-	const mockStdoutWrite = vi.spyOn(process.stdout, "write");
+	let mockStdoutWrite: any;
 	const mockQuestion = vi.mocked(question);
 
 	beforeEach(() => {
 		vi.clearAllMocks();
-		mockStdoutWrite.mockImplementation(() => true);
+		mockStdoutWrite = vi
+			.spyOn(process.stdout, "write")
+			.mockImplementation(() => true);
 	});
 
 	afterEach(() => {

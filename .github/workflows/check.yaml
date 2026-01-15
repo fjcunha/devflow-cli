@@ -16,17 +16,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Configure npmrc for Artifactory
-        env:
-          JFROG_TOKEN_ATLAS: ${{ secrets.JFROG_TOKEN_ATLAS }}
-        run: |
-          cat <<EOF > ~/.npmrc
-          registry=https://fsaiartifact.jfrog.io/artifactory/api/npm/fsai-private-npm-AUS-virtual/
-          //fsaiartifact.jfrog.io/artifactory/api/npm/fsai-private-npm-AUS-virtual/:_authToken=${JFROG_TOKEN_ATLAS}
-          registry=https://fsaiartifact.jfrog.io/artifactory/api/npm/atlas-virtual-repository-npm/
-          //fsaiartifact.jfrog.io/artifactory/api/npm/atlas-virtual-repository-npm/:_authToken=${JFROG_TOKEN_ATLAS}
-          EOF
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
