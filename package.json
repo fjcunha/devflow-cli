@@ -36,7 +36,7 @@
 		"README.md"
 	],
 	"scripts": {
-		"build": "tsup src/cli.ts postinstall.ts --format esm",
+		"build": "tsup src/cli.ts --format esm",
 		"dev": "tsx src/cli.ts",
 		"prepublishOnly": "npm run build",
 		"postinstall": "node postinstall.js",
