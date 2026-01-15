@@ -21,6 +21,10 @@
 		"url": "https://github.com/fjcunha/devflow-cli/issues"
 	},
 	"homepage": "https://github.com/fjcunha/devflow-cli#readme",
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
+	},
 	"bin": {
 		"devflow": "./dist/cli.js"
 	},
