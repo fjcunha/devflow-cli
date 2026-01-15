@@ -1,256 +1,325 @@
+<div align="center">
+
 # DevFlow CLI
 
-A command-line tool for initializing new DevFlow projects from a template repository. DevFlow CLI simplifies project setup by cloning a template repository and configuring it with your project details.
+**A powerful command-line tool for initializing DevFlow projects with Claude AI agents**
+
+[![CI](https://github.com/YOUR_ORG/devflow-cli/actions/workflows/check.yaml/badge.svg)](https://github.com/YOUR_ORG/devflow-cli/actions/workflows/check.yaml)
+[![codecov](https://codecov.io/gh/YOUR_ORG/devflow-cli/branch/main/graph/badge.svg)](https://codecov.io/gh/YOUR_ORG/devflow-cli)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-%3E%3D18-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+
+[Features](#features) | [Installation](#installation) | [Usage](#usage) | [Development](#development) | [Contributing](#contributing)
+
+</div>
+
+---
+
+## Overview
+
+DevFlow CLI simplifies the setup of DevFlow-powered projects by installing Claude AI agents, project structure templates, and configuration files into your existing projects. It handles dependency validation, provides OS-specific installation guidance, and ensures a smooth onboarding experience.
 
 ## Features
 
-- 🚀 Quick project initialization from template
-- 📝 Interactive prompts for project configuration
-- 🔧 Automatic package.json updates
-- 🧹 Removes git history from cloned template (clean slate)
-- ✅ Type-safe with TypeScript
-- 🧪 Fully tested with Vitest
+| Feature | Description |
+|---------|-------------|
+| **Project Initialization** | Install DevFlow components into existing projects with a single command |
+| **Dependency Validation** | Automatically checks for Git, Claude Code, Node.js, Python, GCC, and Make |
+| **Cross-Platform Support** | Works on macOS, Windows, Ubuntu, Debian, Fedora, RHEL, CentOS, and Arch Linux |
+| **Claude AI Agents** | Installs pre-configured Claude agents for enhanced development workflows |
+| **Conflict Resolution** | Gracefully handles existing files with user prompts |
+| **Smart .gitignore Merge** | Intelligently merges DevFlow entries with your existing .gitignore |
+
+## Requirements
+
+| Dependency | Required | Description |
+|------------|----------|-------------|
+| **Git** | Yes | Version control |
+| **Claude Code** | Yes | AI-powered coding assistant |
+| **Node.js** | Optional | v18+ for Web IDE features |
+| **Python 3** | Optional | For Web IDE features |
+| **GCC** | Optional | For native module compilation |
+| **Make** | Optional | For build automation |
 
 ## Installation
 
-### JFrog Artifactory Setup
-
-Before installing the package, you need to configure npm to authenticate with FSAI JFrog Artifactory.
-
-#### 1. Create or update `.npmrc` file
-
-Create a `.npmrc` file in your home directory (`~/.npmrc`) or in your project root with the following configuration:
-
-```ini
-@Future-Secure-AI:registry=https://fsai.jfrog.io/artifactory/api/npm/npm/
-//fsai.jfrog.io/artifactory/api/npm/npm/:_authToken=${ARTIFACTORY_TOKEN}
-```
-
-#### 2. Set up authentication token
-
-You'll need to set the `ARTIFACTORY_TOKEN` environment variable with your JFrog Artifactory authentication token:
-
-**On macOS/Linux:**
-```bash
-export ARTIFACTORY_TOKEN=your-artifactory-token-here
-```
-
-**On Windows (PowerShell):**
-```powershell
-$env:ARTIFACTORY_TOKEN="your-artifactory-token-here"
-```
-
-**On Windows (Command Prompt):**
-```cmd
-set ARTIFACTORY_TOKEN=your-artifactory-token-here
-```
-
-To make the token persistent, add the export command to your shell profile (e.g., `~/.zshrc`, `~/.bashrc`, or `~/.profile`).
-
-#### 3. Alternative: Direct token in `.npmrc`
-
-Alternatively, you can directly add your token to the `.npmrc` file (less secure):
-
-```ini
-@Future-Secure-AI:registry=https://fsai.jfrog.io/artifactory/api/npm/npm/
-//fsai.jfrog.io/artifactory/api/npm/npm/:_authToken=YOUR_TOKEN_HERE
-```
-
-> **Note:** Replace `YOUR_TOKEN_HERE` with your actual JFrog Artifactory authentication token. Contact your administrator if you don't have a token.
-
-### Global Installation
-
-Once JFrog Artifactory is configured, install the package globally:
+### Quick Install
 
 ```bash
-npm install -g @Future-Secure-AI/devflow
+npm install -g devflow-cli
 ```
 
-### Local Installation (for development)
+### From Source
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/YOUR_ORG/devflow-cli.git
 cd devflow-cli
 npm install
 npm run build
+npm link
 ```
 
 ## Usage
 
-### Initialize a New Project
-
-Initialize a new DevFlow project in the current directory:
+### Initialize DevFlow in Current Directory
 
 ```bash
 devflow init
 ```
 
-Initialize a new DevFlow project in a specific folder:
+### Initialize in a Specific Folder
 
 ```bash
 devflow init my-project
 ```
 
-### Interactive Prompts
+### Skip Dependency Checks
 
-When you run `devflow init`, you'll be prompted for:
+```bash
+devflow init --skip-deps
+```
 
-1. **Project name** (required): The name of your project
-2. **Description** (optional): A brief description of your project
+### Get Help
 
-The CLI will then:
-- Clone the template repository from `https://github.com/evolve-labs-cloud/devflow.git`
-- Remove the git history to give you a clean slate
-- Update `package.json` with your project name, description, and set version to `0.0.1`
+```bash
+devflow --help
+devflow init --help
+```
+
+### What Gets Installed
+
+When you run `devflow init`, the following components are added to your project:
+
+```
+your-project/
+├── .claude/
+│   └── commands/
+│       └── agents/          # Claude AI agent configurations
+├── .devflow/
+│   ├── agents/              # Agent definitions
+│   ├── memory/              # Persistent memory storage
+│   └── sessions/            # Session management
+├── docs/                    # Documentation templates
+└── .gitignore               # Updated with DevFlow entries
+```
 
 ## Development
 
 ### Prerequisites
 
 - Node.js >= 18
-- npm or yarn
+- npm >= 9
 
 ### Setup
 
-1. Clone the repository:
-   ```bash
-   git clone <repository-url>
-   cd devflow-cli
-   ```
+```bash
+# Clone the repository
+git clone https://github.com/YOUR_ORG/devflow-cli.git
+cd devflow-cli
 
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+# Install dependencies
+npm install
 
-3. Build the project:
-   ```bash
-   npm run build
-   ```
+# Run in development mode
+npm run dev
+```
 
 ### Available Scripts
 
-- `npm run build` - Build the CLI for production
-- `npm run dev` - Run the CLI in development mode
-- `npm test` - Run tests in watch mode
-- `npm run test:run` - Run tests once
-- `npm run check` - Run all checks (type checking, linting, tests, audit)
-- `npm run fix` - Auto-fix linting issues
+| Script | Description |
+|--------|-------------|
+| `npm run build` | Build for production |
+| `npm run dev` | Run in development mode |
+| `npm test` | Run tests in watch mode |
+| `npm run test:run` | Run tests once |
+| `npm run check` | Run all quality checks (types, lint, tests, audit) |
+| `npm run fix` | Auto-fix linting issues |
 
 ### Project Structure
 
 ```
 devflow-cli/
 ├── src/
-│   ├── cli.ts          # Main CLI entry point
-│   ├── init.ts         # Project initialization logic
-│   ├── output.ts       # Terminal output utilities
-│   ├── utils.ts        # Helper functions
-│   ├── init.test.ts    # Tests for init functionality
-│   └── output.test.ts  # Tests for output utilities
-├── dist/               # Compiled output (generated)
+│   ├── cli.ts              # Main CLI entry point (Commander.js)
+│   ├── init.ts             # Project initialization logic
+│   ├── deps.ts             # Dependency checking & OS detection
+│   ├── output.ts           # Terminal output utilities
+│   ├── utils.ts            # Helper functions
+│   ├── postinstall.ts      # Post-install script
+│   └── *.test.ts           # Test files
+├── dist/                   # Compiled output
+├── .github/
+│   └── workflows/          # CI/CD pipelines
 ├── package.json
 ├── tsconfig.json
 ├── vitest.config.ts
-└── README.md
+└── biome.jsonc
 ```
 
-### Code Organization
+### Architecture
 
-- **`cli.ts`**: Main entry point using Commander.js for command parsing
-- **`init.ts`**: Core initialization logic including git clone, file operations, and package.json updates
-- **`output.ts`**: Terminal output utilities (info, success, error, warn, spinner)
-- **`utils.ts`**: Utility functions like interactive prompts
+```
+┌─────────────────────────────────────────────────────────────┐
+│                        CLI Entry                            │
+│                        (cli.ts)                             │
+└─────────────────────────┬───────────────────────────────────┘
+                          │
+          ┌───────────────┼───────────────┐
+          ▼               ▼               ▼
+┌─────────────────┐ ┌───────────┐ ┌───────────────┐
+│   Dependency    │ │   Init    │ │    Output     │
+│    Checker      │ │  Logic    │ │   Utilities   │
+│   (deps.ts)     │ │ (init.ts) │ │ (output.ts)   │
+└─────────────────┘ └───────────┘ └───────────────┘
+         │                │
+         ▼                ▼
+┌─────────────────┐ ┌───────────────────────────────┐
+│  OS Detection   │ │     File Operations           │
+│  & Install      │ │  - Clone template repo        │
+│  Instructions   │ │  - Copy DevFlow components    │
+└─────────────────┘ │  - Merge .gitignore           │
+                    └───────────────────────────────┘
+```
 
-### Testing
+## Testing
 
-The project uses [Vitest](https://vitest.dev/) for testing. Tests are located alongside source files with `.test.ts` extension.
+The project uses [Vitest](https://vitest.dev/) for testing with comprehensive coverage.
 
-Run tests:
 ```bash
-npm test          # Watch mode
-npm run test:run   # Single run
+# Run tests in watch mode
+npm test
+
+# Run tests once
+npm run test:run
+
+# Run tests with UI
+npx vitest --ui
 ```
 
-Test coverage includes:
-- Output utility functions
-- Project initialization logic
-- Error handling
-- File operations
+### Test Coverage
 
-### Code Quality
+| Module | Coverage Focus |
+|--------|----------------|
+| `deps.ts` | OS detection, dependency checking, installation instructions |
+| `init.ts` | Project initialization, file operations, conflict handling |
+| `output.ts` | Terminal output, spinner functionality |
 
-The project uses:
-- **TypeScript** for type safety
-- **Biome** for linting and formatting
-- **Vitest** for testing
+## Code Quality
 
-Run quality checks:
+| Tool | Purpose |
+|------|---------|
+| **TypeScript** | Static type checking (strict mode) |
+| **Biome** | Linting and formatting |
+| **Vitest** | Unit testing |
+| **npm audit** | Security vulnerability scanning |
+
+Run all checks:
+
 ```bash
-npm run check  # Runs type checking, linting, tests, and audit
-npm run fix    # Auto-fix linting issues
+npm run check
 ```
 
-## Architecture
+## CI/CD
 
-### Command Flow
+### Workflows
 
-1. User runs `devflow init [folder]`
-2. CLI prompts for project name and description
-3. `initializeProject()` function:
-   - Validates project name
-   - Checks if target folder exists (if specified)
-   - Clones template repository
-   - Removes `.git` directory
-   - Updates `package.json` with project details
-   - Sets version to `0.0.1`
+| Workflow | Trigger | Purpose |
+|----------|---------|---------|
+| `check.yaml` | Pull Requests | Run type checks, linting, tests, and audit |
+| `release.yaml` | Version tags (v*.*.*) | Build and publish to npm registries |
+| `tag.yaml` | Manual | Create version tags |
 
-### Error Handling
+## Troubleshooting
 
-The CLI handles various error scenarios:
-- Missing or invalid project name
-- Directory already exists
-- Git not installed
-- Network errors during clone
-- File system errors
+### Common Issues
 
-All errors are displayed with clear messages to help users resolve issues.
+<details>
+<summary><strong>Git Not Found</strong></summary>
+
+Ensure Git is installed and available in your system PATH:
+
+```bash
+# Check if Git is installed
+git --version
+
+# Install on Ubuntu/Debian
+sudo apt install git
+
+# Install on macOS
+brew install git
+```
+
+</details>
+
+<details>
+<summary><strong>Claude Code Not Found</strong></summary>
+
+Install Claude Code CLI:
+
+```bash
+# Install via npm
+npm install -g @anthropic-ai/claude-code
+```
+
+</details>
+
+<details>
+<summary><strong>Permission Denied</strong></summary>
+
+If you encounter permission issues during global installation:
+
+```bash
+# Use sudo (Linux/macOS)
+sudo npm install -g devflow-cli
+
+# Or fix npm permissions
+# https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally
+```
+
+</details>
+
+<details>
+<summary><strong>Network Issues</strong></summary>
+
+If cloning the template repository fails:
+
+1. Check your internet connection
+2. Verify access to `https://github.com/evolve-labs-cloud/devflow.git`
+3. Check if you're behind a proxy and configure Git accordingly
+
+</details>
 
 ## Contributing
+
+We welcome contributions! Please follow these steps:
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Make your changes
-4. Run tests and checks (`npm run check`)
+4. Run quality checks (`npm run check`)
 5. Commit your changes (`git commit -m 'Add amazing feature'`)
 6. Push to the branch (`git push origin feature/amazing-feature`)
 7. Open a Pull Request
 
-### Development Guidelines
+### Guidelines
 
 - Follow the existing code style (enforced by Biome)
 - Write tests for new features
 - Update documentation as needed
 - Ensure all checks pass before submitting PR
 
-## Troubleshooting
-
-### Git Not Found
-
-If you see "Git is not installed or not found in PATH", ensure Git is installed and available in your system PATH.
-
-### Directory Already Exists
-
-If the target directory already exists, the CLI will prevent overwriting. Choose a different folder name or remove the existing directory.
-
-### Network Issues
-
-If cloning fails due to network issues, check your internet connection and ensure the template repository is accessible.
-
 ## License
 
-[Add your license here]
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Support
+---
 
-For issues, questions, or contributions, please open an issue on the repository.
+<div align="center">
+
+**Built with TypeScript and Commander.js**
+
+[Report Bug](https://github.com/YOUR_ORG/devflow-cli/issues) | [Request Feature](https://github.com/YOUR_ORG/devflow-cli/issues)
+
+</div>

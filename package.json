@@ -13,7 +13,6 @@
 		"build": "tsup src/cli.ts --format esm",
 		"dev": "tsx src/cli.ts",
 		"prepublishOnly": "npm run build",
-		"postinstall": "node dist/postinstall.js",
 		"check": "echo \"✅ Type checking (tsc)...\" && tsc --noEmit && echo \"🧹 Lint checking (biome)...\" && biome check && echo \"🧪 Running tests (vitest)...\" && vitest run && echo \"🔍 Running package audit (npm audit)...\" && npm audit --audit-level high && echo \"🎉 All checks passed!\"",
 		"test": "vitest",
 		"test:run": "vitest run",

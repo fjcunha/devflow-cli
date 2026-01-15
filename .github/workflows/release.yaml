@@ -2,7 +2,7 @@ name: Release
 
 on:
   push:
-    tags: ["*"]
+    tags: ["v*.*.*"]
   workflow_dispatch:
     inputs:
       tag_name:
@@ -70,47 +70,37 @@ jobs:
             exit 1
           fi
 
-      - name: "Artifactory dependency build: configure npmrc"
-        env:
-          JFROG_TOKEN_ATLAS: ${{ secrets.JFROG_TOKEN_ATLAS }}
-        run: |
-          cat <<EOF > ~/.npmrc
-          registry=https://fsaiartifact.jfrog.io/artifactory/api/npm/fsai-private-npm-AUS-virtual/
-          //fsaiartifact.jfrog.io/artifactory/api/npm/fsai-private-npm-AUS-virtual/:_authToken=${JFROG_TOKEN_ATLAS}
-          registry=https://fsaiartifact.jfrog.io/artifactory/api/npm/atlas-virtual-repository-npm/
-          //fsaiartifact.jfrog.io/artifactory/api/npm/atlas-virtual-repository-npm/:_authToken=${JFROG_TOKEN_ATLAS}
-          EOF
-
-      - name: "Artifactory dependency build: setup Node.js"
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: npm
+          registry-url: https://npm.pkg.github.com
 
-      - name: "Artifactory dependency build: install dependencies"
+      - name: Install dependencies
         run: npm ci --no-fund --no-audit --progress=false
 
-      - name: "Artifactory dependency build: run checks"
+      - name: Run checks
         run: npm run check
 
-      - name: "Artifactory dependency build: build"
+      - name: Build
         run: npm run build
 
-      - name: "Artifactory dependency build: verify build outputs"
+      - name: Verify build outputs
         run: |
           test -f dist/cli.js
           test -s dist/cli.js
 
-      - name: "Artifactory dependency build: set release version from tag"
+      - name: Set release version from tag
         id: version
         run: |
           RELEASE_VERSION="${TAG_NAME#v}"
           echo "release_version=${RELEASE_VERSION}" >> "$GITHUB_OUTPUT"
 
-      - name: "Artifactory dependency build: update package.json for release"
+      - name: Update package.json for release
         env:
           RELEASE_VERSION: ${{ steps.version.outputs.release_version }}
-          REPOSITORY_OWNER: Future-Secure-AI
+          REPOSITORY_OWNER: ${{ github.repository_owner }}
         run: |
           node - <<'NODE'
           const fs = require('fs');
@@ -130,46 +120,7 @@ jobs:
           fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
           NODE
 
-      - name: "Local repository publish: configure npmrc"
+      - name: Publish to GitHub Packages
         env:
-          JFROG_ARTIFACTORY_LOCAL_NPM_REGISTRY_TOKEN: ${{ secrets.JFROG_TOKEN_ATLAS }}
-        run: |
-          cat <<EOF > ~/.npmrc
-          registry=https://fsaiartifact.jfrog.io/artifactory/api/npm/atlas-local-repository-npm/
-          //fsaiartifact.jfrog.io/artifactory/api/npm/atlas-local-repository-npm/:_authToken=${JFROG_ARTIFACTORY_LOCAL_NPM_REGISTRY_TOKEN}
-          EOF
-
-      - name: "Local repository publish: update package.json"
-        env:
-          RELEASE_VERSION: ${{ steps.version.outputs.release_version }}
-          REPOSITORY_OWNER: Future-Secure-AI
-        run: |
-          node - <<'NODE'
-          const fs = require('fs');
-          const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-
-          pkg.publishConfig = { registry: 'https://fsaiartifact.jfrog.io/artifactory/api/npm/atlas-local-repository-npm/' };
-
-          fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
-          NODE
-
-      - name: "Local repository publish: verify npmrc"
-        env:
-          JFROG_ARTIFACTORY_LOCAL_NPM_REGISTRY_TOKEN: ${{ secrets.JFROG_TOKEN_ATLAS }}
-        run: |
-          if [ -z "${JFROG_ARTIFACTORY_LOCAL_NPM_REGISTRY_TOKEN}" ]; then
-            echo "Error: JFROG_ARTIFACTORY_LOCAL_NPM_REGISTRY_TOKEN is not set" >&2
-            exit 1
-          fi
-          if [ ! -f ~/.npmrc ]; then
-            echo "Error: ~/.npmrc file not found" >&2
-            exit 1
-          fi
-          echo "Verifying .npmrc configuration..."
-          cat ~/.npmrc
-
-      - name: "Local repository publish: publish"
-        env:
-          JFROG_ARTIFACTORY_LOCAL_NPM_REGISTRY_TOKEN: ${{ secrets.ATLAS_TOKEN_LOCAL_NPM }}
-        run: |
-          npm publish --registry=https://fsaiartifact.jfrog.io/artifactory/api/npm/atlas-local-repository-npm/ --access=restricted
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm publish --access=restricted
