@@ -38,6 +38,7 @@ DevFlow CLI simplifies the setup of DevFlow-powered projects by installing the m
 | Feature | Description |
 |---------|-------------|
 | **Project Initialization** | Install DevFlow components into existing projects with a single command |
+| **Web IDE** | Start and manage the DevFlow Web IDE with automatic updates |
 | **Dependency Validation** | Automatically checks for Git, Claude Code, Node.js, Python, GCC, and Make |
 | **Cross-Platform Support** | Works on macOS, Windows, Ubuntu, Debian, Fedora, RHEL, CentOS, and Arch Linux |
 | **Claude AI Agents** | Installs pre-configured Claude agents for enhanced development workflows |
@@ -93,11 +94,31 @@ devflow init my-project
 devflow init --skip-deps
 ```
 
+### Start the DevFlow Web IDE
+
+```bash
+devflow ide start
+```
+
+This command will:
+- Clone the DevFlow repository (if not already set up)
+- Install dependencies automatically
+- Start the Next.js development server
+
+### Update the DevFlow Web IDE
+
+```bash
+devflow ide update
+```
+
+Updates the Web IDE to the latest version from the repository.
+
 ### Get Help
 
 ```bash
 devflow --help
 devflow init --help
+devflow ide --help
 ```
 
 ### What Gets Installed
@@ -156,6 +177,7 @@ devflow-cli/
 ├── src/
 │   ├── cli.ts              # Main CLI entry point (Commander.js)
 │   ├── init.ts             # Project initialization logic
+│   ├── ide.ts              # Web IDE management (start, update)
 │   ├── deps.ts             # Dependency checking & OS detection
 │   ├── output.ts           # Terminal output utilities
 │   ├── utils.ts            # Helper functions
@@ -216,6 +238,7 @@ npx vitest --ui
 |--------|----------------|
 | `deps.ts` | OS detection, dependency checking, installation instructions |
 | `init.ts` | Project initialization, file operations, conflict handling |
+| `ide.ts` | Web IDE start/update, version checking, command execution |
 | `output.ts` | Terminal output, spinner functionality |
 
 ## Code Quality

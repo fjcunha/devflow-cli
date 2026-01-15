@@ -2,6 +2,7 @@
 
 import { program } from "commander";
 import { initializeProject, handleInitError } from "./init.js";
+import { startIde, updateIde, handleIdeError } from "./ide.js";
 import {
 	checkDependencies,
 	showInstallInstructions,
@@ -64,6 +65,57 @@ After installation, the CLI will:
 			});
 		} catch (error: unknown) {
 			handleInitError(error);
+		}
+	});
+
+// IDE command with subcommands
+const ideCommand = program
+	.command("ide")
+	.description("Manage DevFlow IDE components");
+
+ideCommand
+	.command("start")
+	.description("Set up DevFlow web IDE in the global package directory")
+	.addHelpText(
+		"after",
+		`
+Examples:
+  $ devflow ide start             Clone and set up the web IDE
+
+This command will:
+  • Clone the DevFlow repository to a temporary folder
+  • Copy the web/ folder to the installed package directory
+  • Clean up the temporary folder
+		`,
+	)
+	.action(async () => {
+		try {
+			await startIde();
+		} catch (error: unknown) {
+			handleIdeError(error);
+		}
+	});
+
+ideCommand
+	.command("update")
+	.description("Update the DevFlow web IDE to the latest version")
+	.addHelpText(
+		"after",
+		`
+Examples:
+  $ devflow ide update            Update the web IDE to latest version
+
+This command will:
+  • Clone the DevFlow repository to a temporary folder
+  • Replace the existing web/ folder with the new version
+  • Clean up the temporary folder
+		`,
+	)
+	.action(async () => {
+		try {
+			await updateIde();
+		} catch (error: unknown) {
+			handleIdeError(error);
 		}
 	});
 
