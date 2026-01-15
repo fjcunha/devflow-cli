@@ -1,0 +1,77 @@
+name: Tag Main
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Compute release tag
+        id: version
+        run: |
+          VERSION_PREFIX=$(node - <<'NODE'
+          const { version } = require('./package.json');
+          const [major, minor] = (version || '').split('.');
+          if (!/^\d+$/.test(major || '') || !/^\d+$/.test(minor || '')) {
+            throw new Error(`package.json version must start with numeric major.minor (received "${version}")`);
+          }
+          console.log(`${Number(major)}.${Number(minor)}`);
+          NODE
+          )
+          PATCH="${GITHUB_RUN_NUMBER}"
+          TAG_NAME="v${VERSION_PREFIX}.${PATCH}"
+          echo "tag_name=${TAG_NAME}" >> "$GITHUB_OUTPUT"
+
+      - name: Check if tag already exists
+        id: tag_check
+        env:
+          TAG_NAME: ${{ steps.version.outputs.tag_name }}
+        run: |
+          if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Tag commit
+        if: steps.tag_check.outputs.exists == 'false'
+        env:
+          TAG_NAME: ${{ steps.version.outputs.tag_name }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag "$TAG_NAME"
+          git push origin "$TAG_NAME"
+
+      - name: Trigger release workflow
+        if: steps.tag_check.outputs.exists == 'false'
+        uses: actions/github-script@v7
+        env:
+          TAG_NAME: ${{ steps.version.outputs.tag_name }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: "release.yaml",
+              ref: context.ref,
+              inputs: { tag_name: process.env.TAG_NAME }
+            });

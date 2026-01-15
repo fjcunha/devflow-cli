@@ -1,0 +1,62 @@
+{
+	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+	"files": {
+		"includes": [
+			"src/**/*.ts",
+			"src/**/*.tsx",
+			"*.ts",
+			"*.tsx",
+			"*.json",
+			"*.jsonc"
+		],
+		"ignoreUnknown": true
+	},
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true,
+		"defaultBranch": "main"
+	},
+	"formatter": {
+		"useEditorconfig": true
+	},
+	"assist": {
+		"actions": {
+			"source": {
+				"organizeImports": "off"
+			}
+		}
+	},
+	"linter": {
+		"rules": {
+			"correctness": {
+				"noNodejsModules": "off" // We are in a Node environment, and need these
+			}
+		}
+	},
+	"overrides": [
+		{
+			"includes": ["src/**/*.ts", "src/**/*.tsx"],
+			"linter": {
+				"rules": {
+					"suspicious": {
+						"noConsole": "error" // Use the logger instead, so that logs are imported into Loki/Grafana correctly
+					},
+					"style": {
+						"useNodejsImportProtocol": "error" // Enforce `node:` scheme for built-in modules
+					}
+				}
+			}
+		},
+		{
+			"includes": ["**/*.test.ts", "tests/**/*"],
+			"linter": {
+				"rules": {
+					"suspicious": {
+						"noConsole": "off" // Test can log to console, as the logger is impractical here.
+					}
+				}
+			}
+		}
+	]
+}

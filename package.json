@@ -1,0 +1,40 @@
+{
+	"name": "devflow-cli",
+	"version": "1.0.0",
+	"description": "Facilitate dev flow project installation",
+	"type": "module",
+	"bin": {
+		"devflow": "./dist/cli.js"
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "tsup src/cli.ts src/postinstall.ts --format esm",
+		"dev": "tsx src/cli.ts",
+		"prepublishOnly": "npm run build",
+		"postinstall": "node dist/postinstall.js",
+		"check": "echo \"✅ Type checking (tsc)...\" && tsc --noEmit && echo \"🧹 Lint checking (biome)...\" && biome check && echo \"🧪 Running tests (vitest)...\" && vitest run && echo \"🔍 Running package audit (npm audit)...\" && npm audit --audit-level high && echo \"🎉 All checks passed!\"",
+		"test": "vitest",
+		"test:run": "vitest run",
+		"fix": "biome check --fix"
+	},
+	"engines": {
+		"node": ">=18"
+	},
+	"dependencies": {
+		"commander": "^12.0.0"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.3.11",
+		"@types/node": "^20.0.0",
+		"@vitest/ui": "^1.6.0",
+		"tsup": "^8.0.0",
+		"tsx": "^4.7.0",
+		"typescript": "^5.0.0",
+		"vitest": "^1.6.0"
+	},
+	"overrides": {
+		"esbuild": "0.27.2"
+	}
+}
