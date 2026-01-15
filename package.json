@@ -1,5 +1,5 @@
 {
-	"name": "devflow-cli",
+	"name": "@fjcunha/devflow-cli",
 	"version": "1.0.0",
 	"description": "CLI tool for initializing DevFlow projects with Claude AI agents",
 	"type": "module",
