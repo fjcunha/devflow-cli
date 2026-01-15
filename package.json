@@ -1,8 +1,26 @@
 {
 	"name": "devflow-cli",
 	"version": "1.0.0",
-	"description": "Facilitate dev flow project installation",
+	"description": "CLI tool for initializing DevFlow projects with Claude AI agents",
 	"type": "module",
+	"license": "MIT",
+	"author": "Fabrício Cunha",
+	"keywords": [
+		"cli",
+		"devflow",
+		"claude",
+		"ai",
+		"developer-tools",
+		"project-initialization"
+	],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/fjcunha/devflow-cli.git"
+	},
+	"bugs": {
+		"url": "https://github.com/fjcunha/devflow-cli/issues"
+	},
+	"homepage": "https://github.com/fjcunha/devflow-cli#readme",
 	"bin": {
 		"devflow": "./dist/cli.js"
 	},

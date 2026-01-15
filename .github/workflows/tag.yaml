@@ -50,28 +50,13 @@ jobs:
             echo "exists=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Tag commit
+      - name: Tag commit and push
         if: steps.tag_check.outputs.exists == 'false'
         env:
           TAG_NAME: ${{ steps.version.outputs.tag_name }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git tag "$TAG_NAME"
-          git push origin "$TAG_NAME"
-
-      - name: Trigger release workflow
-        if: steps.tag_check.outputs.exists == 'false'
-        uses: actions/github-script@v7
-        env:
-          TAG_NAME: ${{ steps.version.outputs.tag_name }}
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            await github.rest.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              workflow_id: "release.yaml",
-              ref: context.ref,
-              inputs: { tag_name: process.env.TAG_NAME }
-            });
+          git push https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git "$TAG_NAME"
