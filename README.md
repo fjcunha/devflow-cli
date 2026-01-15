@@ -48,7 +48,7 @@ DevFlow CLI simplifies the setup of DevFlow-powered projects by installing Claud
 ### Quick Install
 
 ```bash
-npm install -g devflow-cli
+npm install -g @fjcunha/devflow-cli
 ```
 
 ### From Source
