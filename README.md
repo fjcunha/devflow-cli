@@ -5,7 +5,7 @@
 **A powerful command-line tool for initializing DevFlow projects with Claude AI agents**
 
 [![CI](https://github.com/fjcunha/devflow-cli/actions/workflows/check.yaml/badge.svg)](https://github.com/fjcunha/devflow-cli/actions/workflows/check.yaml)
-[![codecov](https://codecov.io/gh/fjcunha/devflow-cli/branch/main/graph/badge.svg)](https://codecov.io/gh/fjcunha/devflow-cli)
+[![Coverage](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/fjcunha/devflow-cli/main/.github/badges/coverage.json)](https://github.com/fjcunha/devflow-cli/actions/workflows/coverage.yaml)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-%3E%3D18-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
