@@ -1,7 +1,7 @@
 {
 	"name": "@fjcunha/devflow-cli",
 	"version": "1.0.0",
-	"description": "CLI tool for initializing DevFlow projects with Claude AI agents",
+	"description": "Official npm wrapper for DevFlow - A Multi-Agent System for Claude Code",
 	"type": "module",
 	"license": "MIT",
 	"author": "Fabrício Cunha",
@@ -10,6 +10,8 @@
 		"devflow",
 		"claude",
 		"ai",
+		"multi-agent",
+		"claude-code",
 		"developer-tools",
 		"project-initialization"
 	],
