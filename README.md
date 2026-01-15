@@ -4,8 +4,8 @@
 
 **A powerful command-line tool for initializing DevFlow projects with Claude AI agents**
 
-[![CI](https://github.com/YOUR_ORG/devflow-cli/actions/workflows/check.yaml/badge.svg)](https://github.com/YOUR_ORG/devflow-cli/actions/workflows/check.yaml)
-[![codecov](https://codecov.io/gh/YOUR_ORG/devflow-cli/branch/main/graph/badge.svg)](https://codecov.io/gh/YOUR_ORG/devflow-cli)
+[![CI](https://github.com/fjcunha/devflow-cli/actions/workflows/check.yaml/badge.svg)](https://github.com/fjcunha/devflow-cli/actions/workflows/check.yaml)
+[![codecov](https://codecov.io/gh/fjcunha/devflow-cli/branch/main/graph/badge.svg)](https://codecov.io/gh/fjcunha/devflow-cli)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-%3E%3D18-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -54,7 +54,7 @@ npm install -g devflow-cli
 ### From Source
 
 ```bash
-git clone https://github.com/YOUR_ORG/devflow-cli.git
+git clone https://github.com/fjcunha/devflow-cli.git
 cd devflow-cli
 npm install
 npm run build
@@ -116,7 +116,7 @@ your-project/
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_ORG/devflow-cli.git
+git clone https://github.com/fjcunha/devflow-cli.git
 cd devflow-cli
 
 # Install dependencies
@@ -320,6 +320,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Built with TypeScript and Commander.js**
 
-[Report Bug](https://github.com/YOUR_ORG/devflow-cli/issues) | [Request Feature](https://github.com/YOUR_ORG/devflow-cli/issues)
+[Report Bug](https://github.com/fjcunha/devflow-cli/issues) | [Request Feature](https://github.com/fjcunha/devflow-cli/issues)
 
 </div>

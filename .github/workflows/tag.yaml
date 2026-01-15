@@ -60,3 +60,11 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git tag "$TAG_NAME"
           git push https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git "$TAG_NAME"
+
+      - name: Trigger release workflow
+        if: steps.tag_check.outputs.exists == 'false'
+        env:
+          TAG_NAME: ${{ steps.version.outputs.tag_name }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          gh workflow run release.yaml --ref main -f tag_name="$TAG_NAME"
